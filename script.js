@@ -1,44 +1,54 @@
-// TODO: Create a function getComputerChoice that randomly returns either 'Rock', 'Paper' or 'Scissors'
-
-// declare an array that contains the three values: rock, paper, scissors
-// return a random item from the array
-function getComputerChoice() {
-  const choices = ["Rock", "Paper", "Scissors"];
-  return choices[Math.floor(Math.random() * 3)];
-}
-//  TODO: Create a function that plays a single round of RPS and should take two parameters (playerSelection, computerSelection) and returns a string that declares the winner of the round */
-// rock beats scissors, paper beats rock, scissors beat paper
-function playRound(playerSelection, computerSelection) {
-  if (playerSelection === computerSelection) {
-    playRound();
+let [computer_score, user_score] = [0, 0];
+let result_ref = document.getElementById("result");
+let choices_object = {
+  rock: {
+    rock: "draw",
+    scissor: "win",
+    paper: "lose"
+  },
+  scissor: {
+    rock: "lose",
+    scissor: "draw",
+    paper: "win"
+  },
+  paper: {
+    rock: "win",
+    scissor: "lose",
+    paper: "draw"
   }
-  if (playerSelection === "scissors" && computerSelection === "Rock") {
-    return "You lose Rock beats Scissors";
-  } else if (playerSelection === "rock" && computerSelection === "Paper") {
-    return "You lose Paper beats Rock";
-  } else if (playerSelection === "paper" && computerSelection === "scissors") {
-    return "You lose Scissors beat Paper";
-  } else if (playerSelection === "scissors" && computerSelection === "paper") {
-    return "You win Scissors beat Paper";
-  } else if (playerSelection === "rock" && computerSelection === "Scissors") {
-    return "You win Rock beats Scissors";
-  } else if (playerSelection === "paper" && computerSelection === "rock") {
-    return "You win Paper beats Rock";
-  }
-}
-// you should make the playerSelection parameter case-insensitive
-// replay the round if ties occur
+};
 
-playerSelection = prompt(
-  "Make a choice! Rock, Paper or Scissors?:  "
-).toLowerCase();
-computerSelection = getComputerChoice();
-// call the function
-playRound(playerSelection, computerSelection);
+function checker(input) {
+  var choices = ["rock", "paper", "scissor"];
+  var num = Math.floor(Math.random() * 3);
 
-// TODO: create game() and Use playRound to play best-of-five game that keeps score a winner or loser at the end
-function game() {
-  for (let i = 0; i < 6; i++) {
-    playRound();
+  document.getElementById(
+    "comp_choice"
+  ).innerHTML = ` Computer choose <span> ${choices[num].toUpperCase()} </span>`;
+
+  document.getElementById(
+    "user_choice"
+  ).innerHTML = ` You choose <span> ${input.toUpperCase()} </span>`;
+
+  let computer_choice = choices[num];
+
+  switch (choices_object[input][computer_choice]) {
+    case "win":
+      result_ref.style.cssText = "background-color: #cefdce; color: #689f38";
+      result_ref.innerHTML = "YOU WIN";
+      user_score++;
+      break;
+    case "lose":
+      result_ref.style.cssText = "background-color: #ffdde0; color: #d32f2f";
+      result_ref.innerHTML = "YOU LOSE";
+      computer_score++;
+      break;
+    default:
+      result_ref.style.cssText = "background-color: #e5e5e5; color: #808080";
+      result_ref.innerHTML = "DRAW";
+      break;
   }
+
+  document.getElementById("computer_score").innerHTML = computer_score;
+  document.getElementById("user_score").innerHTML = user_score;
 }
